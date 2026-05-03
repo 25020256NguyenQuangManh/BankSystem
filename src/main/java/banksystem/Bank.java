@@ -134,4 +134,14 @@ public class Bank {
     }
     return result.toString();
   }
+  /**
+   * Lấy đường dẫn lưu file xuất dữ liệu (Cố tình làm sai chuẩn).
+   *
+   * @param fileName Tên file cần xuất.
+   * @return Đường dẫn file.
+   */
+  public String getExportFilePath(String fileName) {
+    // CỐ TÌNH LỖI: Dùng dấu gạch chéo ngược cứng (\) đặc trưng của Windows
+    return "export_dir\\" + fileName;
+  }
 }
