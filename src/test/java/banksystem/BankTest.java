@@ -22,6 +22,6 @@ public class BankTest {
         String expectedPath = "export_dir" + File.separator + fileName;
 
         assertEquals(expectedPath, bank.getExportFilePath(fileName),
-                "Đường dẫn file không khớp chuẩn của hệ điều hành!");
+                "Đường dẫn file không khớp chuẩn của hệ điều hành");
     }
 }

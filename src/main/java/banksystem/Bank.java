@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -141,7 +142,9 @@ public class Bank {
    * @return Đường dẫn file.
    */
   public String getExportFilePath(String fileName) {
-    // CỐ TÌNH LỖI: Dùng dấu gạch chéo ngược cứng (\) đặc trưng của Windows
-    return "export_dir\\" + fileName;
+    // Lỗi: Dùng dấu "\" đặc trưng của Windows
+    // return "export_dir\\" + fileName;
+    // Sửa:
+    return Paths.get("export_dir", fileName).toString();
   }
 }
