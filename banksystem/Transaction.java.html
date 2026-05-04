@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Transaction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">BankSystem</a> &gt; <a href="index.source.html" class="el_package">banksystem</a> &gt; <span class="el_source">Transaction.java</span></div><h1>Transaction.java</h1><pre class="source lang-java linenums">package banksystem;
+
+import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Đại diện cho một giao dịch trong hệ thống.
+ */
+public class Transaction {
+<span class="nc" id="L11">  private static final Logger logger = LoggerFactory.getLogger(Transaction.class);</span>
+
+  public static final int TYPE_DEPOSIT_CHECKING = 1;
+  public static final int TYPE_WITHDRAW_CHECKING = 2;
+  public static final int TYPE_DEPOSIT_SAVINGS = 3;
+  public static final int TYPE_WITHDRAW_SAVINGS = 4;
+
+  private int type;
+  private double amount;
+  private double initialBalance;
+  private double finalBalance;
+
+  /**a.*/
+<span class="nc" id="L24">  public Transaction(int type, double amount, double initialBalance, double finalBalance) {</span>
+<span class="nc" id="L25">    this.type = type;</span>
+<span class="nc" id="L26">    this.amount = amount;</span>
+<span class="nc" id="L27">    this.initialBalance = initialBalance;</span>
+<span class="nc" id="L28">    this.finalBalance = finalBalance;</span>
+<span class="nc" id="L29">  }</span>
+
+  // (Giữ nguyên các Getters và Setters hợp lệ)
+
+  /**
+   * Chuyển đổi mã loại giao dịch thành chuỗi ký tự mô tả.
+   *
+   * @param type Mã loại giao dịch.
+   * @return Chuỗi mô tả loại giao dịch.
+   */
+  public static String getTypeString(int type) {
+<span class="nc bnc" id="L40" title="All 5 branches missed.">    switch (type) {</span>
+      case TYPE_DEPOSIT_CHECKING:
+<span class="nc" id="L42">        return &quot;Nạp tiền vãng lai&quot;;</span>
+      case TYPE_WITHDRAW_CHECKING:
+<span class="nc" id="L44">        return &quot;Rút tiền vãng lai&quot;;</span>
+      case TYPE_DEPOSIT_SAVINGS:
+<span class="nc" id="L46">        return &quot;Nạp tiền tiết kiệm&quot;;</span>
+      case TYPE_WITHDRAW_SAVINGS:
+<span class="nc" id="L48">        return &quot;Rút tiền tiết kiệm&quot;;</span>
+      default:
+<span class="nc" id="L50">        return &quot;Không rõ&quot;;</span>
+    }
+  }
+
+  /**a.*/
+  public String getTransactionSummary() {
+<span class="nc" id="L56">    logger.debug(&quot;Tạo bản tóm tắt cho giao dịch loại: {}&quot;, this.type);</span>
+
+<span class="nc" id="L58">    return String.format(Locale.US,</span>
+        &quot;- Kiểu giao dịch: %s. Số dư ban đầu: $%.2f. Số tiền: $%.2f. Số dư cuối: $%.2f.&quot;,
+<span class="nc" id="L60">        getTypeString(type), initialBalance, amount, finalBalance);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

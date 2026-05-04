@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Account.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">BankSystem</a> &gt; <a href="index.source.html" class="el_package">banksystem</a> &gt; <span class="el_source">Account.java</span></div><h1>Account.java</h1><pre class="source lang-java linenums">package banksystem;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Lớp đại diện cho tài khoản ngân hàng cơ bản.
+ */
+public abstract class Account {
+<span class="nc" id="L12">  private static final Logger logger = LoggerFactory.getLogger(Account.class);</span>
+
+  public static final String CHECKING_TYPE = &quot;CHECKING&quot;;
+  public static final String SAVINGS_TYPE = &quot;SAVINGS&quot;;
+
+  private long accountNumber;
+  private double balance;
+  protected List&lt;Transaction&gt; transactionList;
+
+  /**a.*/
+<span class="nc" id="L22">  public Account(long accountNumber, double balance) {</span>
+<span class="nc" id="L23">    this.accountNumber = accountNumber;</span>
+<span class="nc" id="L24">    this.balance = balance;</span>
+<span class="nc" id="L25">    this.transactionList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L26">  }</span>
+
+  public long getAccountNumber() {
+<span class="nc" id="L29">    return accountNumber;</span>
+  }
+
+  public void setAccountNumber(long accountNumber) {
+<span class="nc" id="L33">    this.accountNumber = accountNumber;</span>
+<span class="nc" id="L34">  }</span>
+
+  public double getBalance() {
+<span class="nc" id="L37">    return balance;</span>
+  }
+
+  protected void setBalance(double balance) {
+<span class="nc" id="L41">    this.balance = balance;</span>
+<span class="nc" id="L42">  }</span>
+
+  public List&lt;Transaction&gt; getTransactionList() {
+<span class="nc" id="L45">    return transactionList;</span>
+  }
+
+  /**a.*/
+  public void setTransactionList(List&lt;Transaction&gt; transactionList) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    if (transactionList == null) {</span>
+<span class="nc" id="L51">      this.transactionList = new ArrayList&lt;&gt;();</span>
+    } else {
+<span class="nc" id="L53">      this.transactionList = transactionList;</span>
+    }
+<span class="nc" id="L55">  }</span>
+
+  public abstract void deposit(double amount);
+
+  public abstract void withdraw(double amount);
+
+  protected void doDepositing(double amount) throws InvalidFundingAmountException {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (amount &lt;= 0) {</span>
+<span class="nc" id="L63">      throw new InvalidFundingAmountException(amount);</span>
+    }
+<span class="nc" id="L65">    balance += amount;</span>
+<span class="nc" id="L66">  }</span>
+
+  protected void doWithdrawing(double amount) throws BankException {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (amount &lt;= 0) {</span>
+<span class="nc" id="L70">      throw new InvalidFundingAmountException(amount);</span>
+    }
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    if (amount &gt; balance) {</span>
+<span class="nc" id="L73">      throw new InsufficientFundsException(amount);</span>
+    }
+<span class="nc" id="L75">    balance -= amount;</span>
+<span class="nc" id="L76">  }</span>
+
+  /**a.*/
+  public void addTransaction(Transaction transaction) {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">    if (transaction != null) {</span>
+<span class="nc" id="L81">      transactionList.add(transaction);</span>
+    }
+<span class="nc" id="L83">  }</span>
+
+  /**a.*/
+  public String getTransactionHistory() {
+<span class="nc" id="L87">    logger.debug(&quot;Bắt đầu lấy lịch sử giao dịch cho tài khoản: {}&quot;, accountNumber);</span>
+<span class="nc" id="L88">    StringBuilder historyBuilder = new StringBuilder();</span>
+<span class="nc" id="L89">    historyBuilder.append(&quot;Lịch sử giao dịch của tài khoản &quot;).append(accountNumber).append(&quot;:\n&quot;);</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    for (int i = 0; i &lt; transactionList.size(); i++) {</span>
+<span class="nc" id="L92">      historyBuilder.append(transactionList.get(i).getTransactionSummary());</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      if (i &lt; transactionList.size() - 1) {</span>
+<span class="nc" id="L94">        historyBuilder.append(&quot;\n&quot;);</span>
+      }
+    }
+
+<span class="nc" id="L98">    logger.debug(&quot;Hoàn tất lấy lịch sử giao dịch cho tài khoản: {}&quot;, accountNumber);</span>
+<span class="nc" id="L99">    return historyBuilder.toString();</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L104" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L105">      return true;</span>
+    }
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    if (!(obj instanceof Account)) {</span>
+<span class="nc" id="L108">      return false;</span>
+    }
+<span class="nc" id="L110">    Account other = (Account) obj;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    return this.accountNumber == other.accountNumber;</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L116">    return (int) (accountNumber ^ (accountNumber &gt;&gt;&gt; 32));</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
